@@ -7,8 +7,8 @@
   padding: 0.5em 1em;
 }
 .ui-dialog .ui-dialog-title{
-	font-weight: normal;
-	padding: 0;
+  font-weight: normal;
+  padding: 0;
 }
 </style>
 <script>
@@ -19,24 +19,42 @@
 <div class="row">
   <div class="col-xs-2">
 
-  	<select id="SelectOrientacao" title="Choose the Orientation of the cutout area"  class="form-control">
+    <select id="SelectOrientacao" title="{{- 'title.orientation'|trans({}, 'XoeoroPictureCutBundle') -}}"  class="form-control">
+      <option value="Horizontal" id="orientation-horizontal">
+        {{- 'orientation.horizontal'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </option>
+      <option value="Vertical" id="orientation-vertical">
+        {{- 'orientation.vertical'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </option>
     </select>
 
   </div>
   <div class="col-xs-2">
-  	<select id="SelectProporcao" title="Choose the Aspect Ratio of selection"  class="form-control">
+    <select id="SelectProporcao" title="{{- 'title.proportion'|trans({}, 'XoeoroPictureCutBundle') -}}"  class="form-control">
+      <option value="wide" id="proporcao-wide">
+        {{- 'proportion.wide'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </option>
+      <option value="box" id="proporcao-box">
+        {{- 'proportion.box'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </option>
+      <option value="livre" id="proporcao-livre">
+        {{- 'proportion.livre'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </option>
     </select>
   </div>
    <div class="col-xs-12 col-md-8">
-		<div class="btn-group">
-			<button id="button_crop_recortar" class="btn btn-default">Crop</button>
-			<button id="button_crop_original" class="btn btn-default">Finish</button>
-		</div>
+    <div class="btn-group">
+      <button id="button_crop_recortar" class="btn btn-default">
+        {{- 'button_crop_recortar'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </button>
+      <button id="button_crop_original" class="btn btn-default">
+        {{- 'button_crop_original'|trans({}, 'XoeoroPictureCutBundle') -}}
+      </button>
+    </div>
    </div>
-
 </div>
 
 </div>
 <div id="Principal">
-	<div id='SelecaoRecorte'></div>
+  <div id='SelecaoRecorte'></div>
 </div>

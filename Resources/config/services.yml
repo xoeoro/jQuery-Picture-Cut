@@ -1,6 +1,6 @@
 parameters:
-    xoeoro.picturecut.file_base_path: "%kernel.root_dir%/../web/uploads"
-    xoeoro.picturecut.web_base_path: "/uploads"
+    xoeoro.picturecut.file_base_path: "%kernel.root_dir%/../web/uploads/picturecut/"
+    xoeoro.picturecut.web_base_path: "/uploads/picturecut/"
 
 services:
     xoeoro.picturecut:

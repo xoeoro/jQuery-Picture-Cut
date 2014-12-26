@@ -10,7 +10,7 @@ $(function() {
         $dialog = $("<div></div>").attr({
             id: a
         });
-        if (0 < $("#" + a).size()) {
+        if (0 < $("#" + a).length) {
             return !1
         }
         $dialog.css({
@@ -95,7 +95,7 @@ $(function() {
         },
         hide: function() {
             var c = $("#dialog-UiConfirm");
-            0 < c.size() && c.dialog("destroy").remove()
+            0 < c.length && c.dialog("destroy").remove()
         }
     }
 });
@@ -201,12 +201,11 @@ $(function() {
                 InputOfImageDirectory: "image",
                 InputOfImageDirectoryAttr: {},
                 InputOfFile: "",
-                ActionToSubmitUpload: "",
-                ActionToSubmitCrop: "",
-                FolderOnServer: "",
+                ActionToSubmitUpload: OptionsIfEmpty.ActionToSubmitUpload,
+                ActionToSubmitCrop: OptionsIfEmpty.ActionToSubmitCrop,
                 ThumbFolderOnServer: "",
                 DataPost: {},
-                DefaultImageButton: "",
+                DefaultImageButton: OptionsIfEmpty.DefaultImageButton,
                 EnableCrop: false,
                 EnableResize: true,
                 MinimumWidthToResize: 1024,
@@ -233,24 +232,7 @@ $(function() {
             if (Options.ImageButtonCSS != undefined) Options.ImageButtonCSS = $.extend(defaults.ImageButtonCSS, Options.ImageButtonCSS);
             var Options = $.extend(defaults, Options);
             if (Options.CropModes != undefined) Options.CropModes = $.extend(defaults.CropModes, Options.CropModes);
-            if (Options.FolderOnServer == "") {
-                alert("ATTENTION:\nFolderOnServer parameter must be set");
-                return false
-            };
-            if (Options.PluginFolderOnServer == "") {
-                alert("ATTENTION:\nPluginFolderOnServer parameter must be set");
-                return false
-            } else {
-                if (Options.PluginFolderOnServer.length > 0) {
-                    if (Options.PluginFolderOnServer.charAt(Options.PluginFolderOnServer.length - 1) != "/") Options.PluginFolderOnServer += "/";
-                    if (Options.PluginFolderOnServer.charAt(0) != "/") {
-                        Options.PluginFolderOnServer = "/" + Options.PluginFolderOnServer
-                    }
-                }
-            };
-            Options.ActionToSubmitUpload = (Options.ActionToSubmitUpload == "") ? Options.PluginFolderOnServer + OptionsIfEmpty.ActionToSubmitUpload : Options.ActionToSubmitUpload;
-            Options.ActionToSubmitCrop = (Options.ActionToSubmitCrop == "") ? Options.PluginFolderOnServer + OptionsIfEmpty.ActionToSubmitCrop : Options.ActionToSubmitCrop;
-            Options.DefaultImageButton = (Options.DefaultImageButton == "") ? Options.PluginFolderOnServer + OptionsIfEmpty.DefaultImageButton : Options.DefaultImageButton;
+
             Options.CropWindowStyle = Options.CropWindowStyle.toLowerCase();
             if (Options.InputOfFile == "") {
                 Options.InputOfFile = "file-" + Options.InputOfImageDirectory
@@ -258,7 +240,7 @@ $(function() {
             __IMAGE_LOADING = "/bundles/xoeoropicturecut/img/ajaxloader.gif";
             if (Options.PastaCrop != undefined) Options.PluginFolderOnServer = Options.PastaCrop;
             var basic_dependence_css_id = "picture_basic_dependence_css";
-            if ($("#" + basic_dependence_css_id).size() == 0) {
+            if ($("#" + basic_dependence_css_id).length == 0) {
                 $('<style type="text/css" id="' + basic_dependence_css_id + '">' + ".picture-element-principal{background:url(" + Options.DefaultImageButton + ") no-repeat 50% 50%}" + ".picture-dropped{border:2px #666 dashed!important;}" + '</style>').appendTo('head')
             };
             return this.each(function() {
@@ -332,17 +314,21 @@ $(function() {
                                 ElemSelectOrientacao.parent().hide();
                                 ElemSelectOrientacao.hide();
                                 ElemSelectOrientacao.parent().hide()
-                            }; if (Options.CropModes.widescreen) ElemSelectProporcao.append($('<option value="wide">16:9</option>'));
-                            if (Options.CropModes.letterbox) ElemSelectProporcao.append($('<option value="box">4:3</option>'));
-                            if (Options.CropModes.free) ElemSelectProporcao.append($('<option value="livre">Free</option>'));
+                            };
+
+                            if (!Options.CropModes.widescreen) ElemSelectProporcao.find("#proporcao-wide").hide();
+                            if (!Options.CropModes.letterbox) ElemSelectProporcao.find("#proporcao-box").hide();
+                            if (!Options.CropModes.free) ElemSelectProporcao.find("#proporcao-livre").hide();
+
                             if (Options.CropModes.widescreen || Options.CropModes.letterbox && (Options.CropOrientation)) {
-                                ElemSelectOrientacao.append('<option value="Horizontal">Landscape</option>').append('<option value="Vertical">Portrait</option>  ')
+
                             } else {
-                                ElemSelectOrientacao.append('<option value="Horizontal" selected>Portrait</option>');
+                                ElemSelectOrientacao.find('#orientation-horizontal').text(ElemSelectOrientacao.find('#orientation-vertical').hide().text());
                                 ElemSelectOrientacao.hide();
                                 ElemSelectOrientacao.parent().hide()
-                            }; if (ElemSelectProporcao.find("option").size() > 0) {
-                                ElemSelectProporcao.find("option:first-child").attr("selected", "selected")
+                            };
+                            if (ElemSelectProporcao.find("option:not(:hidden)").length > 0) {
+                                ElemSelectProporcao.find("option:not(:hidden)").eq(0).attr("selected", "selected")
                             };
                             SelecaoRecorte.draggable({
                                 containment: "parent"
@@ -473,9 +459,10 @@ $(function() {
                         Imagem.css({
                             "width": response.currentWidth,
                             "height": response.currentHeight
-                        }).attr("src", Options.FolderOnServer + response.currentFileName + "?" + Math.round(Math.random() * 9999))
+                        }).attr("src", response.currentFileName + "?" + Math.round(Math.random() * 9999))
                     };
                     var JpaneDialogCallBack = function() {
+                        $.getScript("/bundles/xoeoropicturecut/js/window.pc.js");
                         var Principal = $("#JtuyoshiCrop #Principal");
                         var Imagem = $("<img />");
                         Principal.append(Imagem);
@@ -513,9 +500,9 @@ $(function() {
                             }, "JSON")
                         })
                     };
-                    if (Options.CropWindowStyle == "jqueryui") PcDialog(Options.PluginFolderOnServer + CropWindowStyle[Options.CropWindowStyle], "JtuyoshiCrop", "Crop image", 900, 555, true, true, false, null, JpaneDialogCallBack);
-                    else if (Options.CropWindowStyle == "popstyle") JpaneDialogCrop(Options.PluginFolderOnServer + CropWindowStyle[Options.CropWindowStyle], "Crop image", 980, 555, true, false, false, null, JpaneDialogCallBack);
-                    else if (Options.CropWindowStyle == "bootstrap") PcDialog(Options.PluginFolderOnServer + CropWindowStyle[Options.CropWindowStyle], "JtuyoshiCrop", "Crop image", 900, 555, true, true, false, null, JpaneDialogCallBack)
+                    if (Options.CropWindowStyle == "jqueryui") PcDialog(CropWindowStyle[Options.CropWindowStyle], "JtuyoshiCrop", "Crop image", 900, 555, true, true, false, null, JpaneDialogCallBack);
+                    else if (Options.CropWindowStyle == "popstyle") JpaneDialogCrop(CropWindowStyle[Options.CropWindowStyle], "Crop image", 980, 555, true, false, false, null, JpaneDialogCallBack);
+                    else if (Options.CropWindowStyle == "bootstrap") PcDialog(CropWindowStyle[Options.CropWindowStyle], "JtuyoshiCrop", "Crop image", 900, 555, true, true, false, null, JpaneDialogCallBack)
                 };
                 var Construir_Widget = function(element) {
                     element.css($.extend(Options.ImageButtonCSS, {
@@ -556,9 +543,7 @@ $(function() {
                     $inputHidden.attr(Options.InputOfImageDirectoryAttr);
                     $inputHidden.bind('change', function() {
                         if ($(this).val() != "") {
-                            var image_thumb;
-                            if (Options.ThumbFolderOnServer != "") image_thumb = Options.ThumbFolderOnServer + $(this).val().substring($(this).val().lastIndexOf("/") + 1);
-                            else image_thumb = Options.FolderOnServer + $(this).val().substring($(this).val().lastIndexOf("/") + 1);
+                            var image_thumb = $(this).val();
                             $image.removeAttr("style");
                             $image.css({
                                 "position": "relative",
@@ -655,7 +640,7 @@ $(function() {
                     var response = response;
                     var ColocarImagemNoBox = function() {
                         var InputOfImage = element.children("input[name='" + Options.InputOfImageDirectory + "']");
-                        InputOfImage.val(Options.FolderOnServer + response.currentFileName).change();
+                        InputOfImage.val(response.currentFileName).change();
                         if (typeof(Options.UploadedCallback) == 'function') {
                             var data_response = response;
                             data_response["options"] = {

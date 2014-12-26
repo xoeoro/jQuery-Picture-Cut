@@ -3,8 +3,8 @@ namespace Xoeoro\PictureCutBundle\Library;
 
  /**
   * TVimageManipulation.php
-   	Copyright (c) 2013 Tuyoshi Vinicius (tuyoshi_vinicius@hotmail.com))
-	Version: 1.0
+    Copyright (c) 2013 Tuyoshi Vinicius (tuyoshi_vinicius@hotmail.com))
+    Version: 1.0
     Classe PHP para redimensionar dinamicamente, cortes e imagens rotativas para fins miniatura e quer exibi-los on-the-fly, ou salvá-los.
   *
   */
@@ -43,8 +43,8 @@ class TVimageManipulation {
     //@var array
     private $newDimensions;
 
-	//Recurso de imagem para a imagem do recém-manipulado
-	//@var resource
+    //Recurso de imagem para a imagem do recém-manipulado
+    //@var resource
     private $newImage;
 
     //Recurso de imagem para a imagem antes de manipulação prévia
@@ -70,23 +70,23 @@ class TVimageManipulation {
 
 
 
-	/*********************************************
-				construtor da classe
-	***********************************************/
+    /*********************************************
+                construtor da classe
+    ***********************************************/
     public function __construct($fileName) {
         // garante que a biblioteca GD está instalado
-    	if(!function_exists("gd_info")) {
-        	echo 'Você não tem a biblioteca GD instalada. Esta classe exige a biblioteca GD para funcionar corretamente.';
-        	exit;
+        if(!function_exists("gd_info")) {
+            echo 'Você não tem a biblioteca GD instalada. Esta classe exige a biblioteca GD para funcionar corretamente.';
+            exit;
         }
 
-    	// inicializar variáveis
+        // inicializar variáveis
         $this->errmsg               = '';
         $this->error                = false;
         $this->currentDimensions    = array();
         $this->newDimensions        = array();
         $this->fileName             = $fileName;
-        $this->imageMeta			= array();
+        $this->imageMeta            = array();
         $this->percent              = 100;
         $this->maxWidth             = 0;
         $this->maxHeight            = 0;
@@ -144,7 +144,7 @@ class TVimageManipulation {
     }
 
     /************************************
-	     destruidor de classe
+         destruidor de classe
     *************************************/
     public function __destruct() {
         if(is_resource($this->newImage)) @ImageDestroy($this->newImage);
@@ -153,7 +153,7 @@ class TVimageManipulation {
     }
 
      /**************************************
-	     Retorna a largura atual da imagem
+         Retorna a largura atual da imagem
      ***************************************/
     //@return int
     public function getCurrentWidth() {
@@ -161,24 +161,24 @@ class TVimageManipulation {
     }
 
     /**************************************
-   	  Retorna a altura atual da imagem
+      Retorna a altura atual da imagem
      ************************************/
     //@return int
     public function getCurrentHeight() {
         return $this->currentDimensions['height'];
     }
 
-	public function getCurrentFilesize(){
-		 clearstatcache();
-		 return (int)filesize($this->fileName);
-	}
+    public function getCurrentFilesize(){
+         clearstatcache();
+         return (int)filesize($this->fileName);
+    }
 
     /**************************************
-	     Calcula largura nova imagem
-	 *************************************/
-	//@param int $width
-	//@param int $height
-	//@return array
+         Calcula largura nova imagem
+     *************************************/
+    //@param int $width
+    //@param int $height
+    //@return array
     private function calcWidth($width,$height) {
         $newWp = (100 * $this->maxWidth) / $width;
         $newHeight = ($height * $newWp) / 100;
@@ -186,7 +186,7 @@ class TVimageManipulation {
     }
 
     /**************************************
-     		Calcula altura nova imagem
+            Calcula altura nova imagem
      *************************************/
     //@param int $width
     //@param int $height
@@ -198,7 +198,7 @@ class TVimageManipulation {
     }
 
     /********************************************************
-     	 Calcula tamanho nova imagem com base em percentual
+         Calcula tamanho nova imagem com base em percentual
      ********************************************************/
     //@param int $width
     //@param int $height
@@ -242,7 +242,7 @@ class TVimageManipulation {
     }
 
     /***********************************************************************
-     		Calcula porcentagem novo tamanho de imagens baseado em
+            Calcula porcentagem novo tamanho de imagens baseado em
      **********************************************************************/
     //@param int $width
     //@param int $height
@@ -253,7 +253,7 @@ class TVimageManipulation {
     }
 
     /**************************************
-     	 Apresenta a imagem de erro
+         Apresenta a imagem de erro
      *************************************/
     private function showErrorImage() {
         header('Content-type: image/png');
@@ -270,7 +270,7 @@ class TVimageManipulation {
 
 
     /***********************************************************
-	      Redimensiona imagem para maxWidth x maxHeight
+          Redimensiona imagem para maxWidth x maxHeight
      ***********************************************************/
     //@param int $maxWidth
     //@param int $maxHeight
@@ -280,111 +280,111 @@ class TVimageManipulation {
 
         $this->calcImageSize($this->currentDimensions['width'],$this->currentDimensions['height']);
 
-		if(function_exists("ImageCreateTrueColor")) {
-			$this->workingImage = ImageCreateTrueColor($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
-		}
-		else {
-			$this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
-		}
+        if(function_exists("ImageCreateTrueColor")) {
+            $this->workingImage = ImageCreateTrueColor($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
+        }
+        else {
+            $this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
+        }
 
-		if($this->format=="PNG")
-		{
-			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
-			imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
-		}
+        if($this->format=="PNG")
+        {
+            imagealphablending($this->workingImage, false);
+            imagesavealpha($this->workingImage,true);
+            $transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
+            imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
+        }
 
 
-		ImageCopyResampled(
-			$this->workingImage,
-			$this->oldImage,
-			0,
-			0,
-			0,
-			0,
-			$this->newDimensions['newWidth'],
-			$this->newDimensions['newHeight'],
-			$this->currentDimensions['width'],
-			$this->currentDimensions['height']
-		);
+        ImageCopyResampled(
+            $this->workingImage,
+            $this->oldImage,
+            0,
+            0,
+            0,
+            0,
+            $this->newDimensions['newWidth'],
+            $this->newDimensions['newHeight'],
+            $this->currentDimensions['width'],
+            $this->currentDimensions['height']
+        );
 
-		$this->oldImage = $this->workingImage;
-		$this->newImage = $this->workingImage;
-		$this->currentDimensions['width'] = $this->newDimensions['newWidth'];
-		$this->currentDimensions['height'] = $this->newDimensions['newHeight'];
-	}
+        $this->oldImage = $this->workingImage;
+        $this->newImage = $this->workingImage;
+        $this->currentDimensions['width'] = $this->newDimensions['newWidth'];
+        $this->currentDimensions['height'] = $this->newDimensions['newHeight'];
+    }
 
-	/**************************************
-	 *Redimensiona a imagem por Percentual
-	 *************************************/
-	 //@param int $percent
-	public function resizePercent($percent = 0) {
-	    $this->percent = $percent;
+    /**************************************
+     *Redimensiona a imagem por Percentual
+     *************************************/
+     //@param int $percent
+    public function resizePercent($percent = 0) {
+        $this->percent = $percent;
 
-	    $this->calcImageSizePercent($this->currentDimensions['width'],$this->currentDimensions['height']);
+        $this->calcImageSizePercent($this->currentDimensions['width'],$this->currentDimensions['height']);
 
-		if(function_exists("ImageCreateTrueColor")) {
-			$this->workingImage = ImageCreateTrueColor($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
-		}
-		else {
-			$this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
-		}
+        if(function_exists("ImageCreateTrueColor")) {
+            $this->workingImage = ImageCreateTrueColor($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
+        }
+        else {
+            $this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
+        }
 
-		if($this->format=="PNG")
-		{
-			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
-			imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
-		}
+        if($this->format=="PNG")
+        {
+            imagealphablending($this->workingImage, false);
+            imagesavealpha($this->workingImage,true);
+            $transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
+            imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
+        }
 
-		ImageCopyResampled(
-			$this->workingImage,
-			$this->oldImage,
-			0,
-			0,
-			0,
-			0,
-			$this->newDimensions['newWidth'],
-			$this->newDimensions['newHeight'],
-			$this->currentDimensions['width'],
-			$this->currentDimensions['height']
-		);
+        ImageCopyResampled(
+            $this->workingImage,
+            $this->oldImage,
+            0,
+            0,
+            0,
+            0,
+            $this->newDimensions['newWidth'],
+            $this->newDimensions['newHeight'],
+            $this->currentDimensions['width'],
+            $this->currentDimensions['height']
+        );
 
-		$this->oldImage = $this->workingImage;
-		$this->newImage = $this->workingImage;
-		$this->currentDimensions['width'] = $this->newDimensions['newWidth'];
-		$this->currentDimensions['height'] = $this->newDimensions['newHeight'];
-	}
+        $this->oldImage = $this->workingImage;
+        $this->newImage = $this->workingImage;
+        $this->currentDimensions['width'] = $this->newDimensions['newWidth'];
+        $this->currentDimensions['height'] = $this->newDimensions['newHeight'];
+    }
 
-	/********************************************************************************
-		 Recorta a imagem do centro calculada em um quadrado de $cropSize pixels
-	 ********************************************************************************/
-	//@param int $cropSize
-	public function cropFromCenter($cropSize) {
-	    if($cropSize > $this->currentDimensions['width']) $cropSize = $this->currentDimensions['width'];
-	    if($cropSize > $this->currentDimensions['height']) $cropSize = $this->currentDimensions['height'];
+    /********************************************************************************
+         Recorta a imagem do centro calculada em um quadrado de $cropSize pixels
+     ********************************************************************************/
+    //@param int $cropSize
+    public function cropFromCenter($cropSize) {
+        if($cropSize > $this->currentDimensions['width']) $cropSize = $this->currentDimensions['width'];
+        if($cropSize > $this->currentDimensions['height']) $cropSize = $this->currentDimensions['height'];
 
-	    $cropX = intval(($this->currentDimensions['width'] - $cropSize) / 2);
-	    $cropY = intval(($this->currentDimensions['height'] - $cropSize) / 2);
+        $cropX = intval(($this->currentDimensions['width'] - $cropSize) / 2);
+        $cropY = intval(($this->currentDimensions['height'] - $cropSize) / 2);
 
-	    if(function_exists("ImageCreateTrueColor")) {
-			$this->workingImage = ImageCreateTrueColor($cropSize,$cropSize);
-		}
-		else {
-			$this->workingImage = ImageCreate($cropSize,$cropSize);
-		}
+        if(function_exists("ImageCreateTrueColor")) {
+            $this->workingImage = ImageCreateTrueColor($cropSize,$cropSize);
+        }
+        else {
+            $this->workingImage = ImageCreate($cropSize,$cropSize);
+        }
 
-		if($this->format=="PNG")
-		{
-			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
-			imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
-		}
+        if($this->format=="PNG")
+        {
+            imagealphablending($this->workingImage, false);
+            imagesavealpha($this->workingImage,true);
+            $transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
+            imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
+        }
 
-		imagecopyresampled(
+        imagecopyresampled(
             $this->workingImage,
             $this->oldImage,
             0,
@@ -395,48 +395,48 @@ class TVimageManipulation {
             $cropSize,
             $cropSize,
             $cropSize
-		);
+        );
 
-		$this->oldImage = $this->workingImage;
-		$this->newImage = $this->workingImage;
-		$this->currentDimensions['width'] = $cropSize;
-		$this->currentDimensions['height'] = $cropSize;
-	}
+        $this->oldImage = $this->workingImage;
+        $this->newImage = $this->workingImage;
+        $this->currentDimensions['width'] = $cropSize;
+        $this->currentDimensions['height'] = $cropSize;
+    }
 
-	/********************************************************************************************************************
-	 * Recortando uma imagem usando $startx e $StartY como o canto superior esquerdo.
-	 ********************************************************************************************************************/
-	//@param int $startX
-	//@param int $startY
-	//@param int $width
-	//@param int $height
-	public function crop($startX,$startY,$width,$height) {
+    /********************************************************************************************************************
+     * Recortando uma imagem usando $startx e $StartY como o canto superior esquerdo.
+     ********************************************************************************************************************/
+    //@param int $startX
+    //@param int $startY
+    //@param int $width
+    //@param int $height
+    public function crop($startX,$startY,$width,$height) {
 
 
-	    if($width > $this->currentDimensions['width']) $width = $this->currentDimensions['width'];
-	    if($height > $this->currentDimensions['height']) $height = $this->currentDimensions['height'];
+        if($width > $this->currentDimensions['width']) $width = $this->currentDimensions['width'];
+        if($height > $this->currentDimensions['height']) $height = $this->currentDimensions['height'];
 
-	    if(($startX + $width) > $this->currentDimensions['width']) $startX = ($this->currentDimensions['width'] - $width);
-	    if(($startY + $height) > $this->currentDimensions['height']) $startY = ($this->currentDimensions['height'] - $height);
-	    if($startX < 0) $startX = 0;
-	    if($startY < 0) $startY = 0;
+        if(($startX + $width) > $this->currentDimensions['width']) $startX = ($this->currentDimensions['width'] - $width);
+        if(($startY + $height) > $this->currentDimensions['height']) $startY = ($this->currentDimensions['height'] - $height);
+        if($startX < 0) $startX = 0;
+        if($startY < 0) $startY = 0;
 
-	    if(function_exists("ImageCreateTrueColor")) {
-			$this->workingImage = ImageCreateTrueColor($width,$height);
-		}
-		else {
-			$this->workingImage = ImageCreate($width,$height);
-		}
+        if(function_exists("ImageCreateTrueColor")) {
+            $this->workingImage = ImageCreateTrueColor($width,$height);
+        }
+        else {
+            $this->workingImage = ImageCreate($width,$height);
+        }
 
-		if($this->format=="PNG")
-		{
-			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
-			imagefilledrectangle($this->workingImage, 0, 0, $width,$height, $transparent);
-		}
+        if($this->format=="PNG")
+        {
+            imagealphablending($this->workingImage, false);
+            imagesavealpha($this->workingImage,true);
+            $transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
+            imagefilledrectangle($this->workingImage, 0, 0, $width,$height, $transparent);
+        }
 
-		@imagecopyresampled(
+        @imagecopyresampled(
             $this->workingImage,
             $this->oldImage,
             0,
@@ -447,72 +447,72 @@ class TVimageManipulation {
             $height,
             $width,
             $height
-		);
+        );
 
-		$this->oldImage = $this->workingImage;
-		$this->newImage = $this->workingImage;
-		$this->currentDimensions['width'] = $width;
-		$this->currentDimensions['height'] = $height;
-	}
+        $this->oldImage = $this->workingImage;
+        $this->newImage = $this->workingImage;
+        $this->currentDimensions['width'] = $width;
+        $this->currentDimensions['height'] = $height;
+    }
 
-	/*************************************************************************************************************************************
-	 	Gera a imagem para a tela, ou salva  $nome, se fornecido. Qualidade de imagens JPEG pode ser controlada com a variável $qualidade
-	 *************************************************************************************************************************************/
-	//@param int $quality
-	//@param string $name
+    /*************************************************************************************************************************************
+        Gera a imagem para a tela, ou salva  $nome, se fornecido. Qualidade de imagens JPEG pode ser controlada com a variável $qualidade
+     *************************************************************************************************************************************/
+    //@param int $quality
+    //@param string $name
 
 
-	public function show($quality=100,$name = '',$header=true) {
-	    switch($this->format) {
-	        case 'GIF':
-	            if($name != '') {
-	                ImageGif($this->newImage,$name);
-	            }
-	            else {
-					   header('Content-type: image/gif');
-	               ImageGif($this->newImage);
-	            }
-	            break;
-	        case 'JPG':
-	            if($name != '') {
-	                ImageJpeg($this->newImage,$name,$quality);
-	            }
-	            else {
-	               header('Content-type: image/jpeg');
-	               ImageJpeg($this->newImage,'',$quality);
-	            }
-	            break;
-	        case 'PNG':
-	            if($name != '') {
-	                ImagePng($this->newImage,$name);
-	            }
-	            else {
-	               header('Content-type: image/png');
-	               ImagePng($this->newImage);
-	            }
-	            break;
-	    }
-	}
+    public function show($quality=100,$name = '',$header=true) {
+        switch($this->format) {
+            case 'GIF':
+                if($name != '') {
+                    ImageGif($this->newImage,$name);
+                }
+                else {
+                       header('Content-type: image/gif');
+                   ImageGif($this->newImage);
+                }
+                break;
+            case 'JPG':
+                if($name != '') {
+                    ImageJpeg($this->newImage,$name,$quality);
+                }
+                else {
+                   header('Content-type: image/jpeg');
+                   ImageJpeg($this->newImage,'',$quality);
+                }
+                break;
+            case 'PNG':
+                if($name != '') {
+                    ImagePng($this->newImage,$name);
+                }
+                else {
+                   header('Content-type: image/png');
+                   ImagePng($this->newImage);
+                }
+                break;
+        }
+    }
 
-	/***********************************************************************************************************************
-	 	 Salva imagem como $ nome (pode incluir caminho do arquivo), com qualidade de # por cento se o arquivo é um jpeg
-	 **********************************************************************************************************************/
-	 //@param string $name
-	 //@param int $quality
-	public function save($name,$quality=100) {
-	    $this->show($quality,$name);
+    /***********************************************************************************************************************
+         Salva imagem como $ nome (pode incluir caminho do arquivo), com qualidade de # por cento se o arquivo é um jpeg
+     **********************************************************************************************************************/
+     //@param string $name
+     //@param int $quality
+    public function save($name,$quality=100) {
+        $this->show($quality,$name);
 
-	}
+    }
 
-	/*********************************************************************************************************
-		  Cria estilo de reflexão sob imagem, adicionar uma borda a imagem principal (opcionalmente)
-	 ********************************************************************************************************/
-	 //@param int $percent
-	 //@param int $reflection
-	 //@param int $white
-	 //@param bool $border
-	 //@param string $borderColor
-	public function createReflection($percent,$reflection,$white,$border = true,$borderColor = '#a4a4a4') {
+    /*********************************************************************************************************
+          Cria estilo de reflexão sob imagem, adicionar uma borda a imagem principal (opcionalmente)
+     ********************************************************************************************************/
+     //@param int $percent
+     //@param int $reflection
+     //@param int $white
+     //@param bool $border
+     //@param string $borderColor
+    public function createReflection($percent,$reflection,$white,$border = true,$borderColor = '#a4a4a4') {
         $width = $this->currentDimensions['width'];
         $height = $this->currentDimensions['height'];
 
@@ -559,32 +559,32 @@ class TVimageManipulation {
         }
 
         $this->oldImage = $this->workingImage;
-		$this->newImage = $this->workingImage;
-		$this->currentDimensions['width'] = $width;
-		$this->currentDimensions['height'] = $newHeight;
-	}
+        $this->newImage = $this->workingImage;
+        $this->currentDimensions['width'] = $width;
+        $this->currentDimensions['height'] = $newHeight;
+    }
 
-	/************************************************************
-		 Inverte imagem de trabalho, usada pela função reflexão
-	 ***********************************************************/
-	private function imageFlipVertical() {
-	    $x_i = imagesx($this->workingImage);
-	    $y_i = imagesy($this->workingImage);
+    /************************************************************
+         Inverte imagem de trabalho, usada pela função reflexão
+     ***********************************************************/
+    private function imageFlipVertical() {
+        $x_i = imagesx($this->workingImage);
+        $y_i = imagesy($this->workingImage);
 
-	    for($x = 0; $x < $x_i; $x++) {
-	        for($y = 0; $y < $y_i; $y++) {
-	            imagecopy($this->workingImage,$this->workingImage,$x,$y_i - $y - 1, $x, $y, 1, 1);
-	        }
-	    }
-	}
+        for($x = 0; $x < $x_i; $x++) {
+            for($y = 0; $y < $y_i; $y++) {
+                imagecopy($this->workingImage,$this->workingImage,$x,$y_i - $y - 1, $x, $y, 1, 1);
+            }
+        }
+    }
 
-	/**************************************************************************************************************
-			 * Converte valor de cor hexadecimal em valores RGB e retorna como matriz / string
-	 *************************************************************************************************************/
-	 //@param string $hex
-	 //@param bool $asString
-	 //return array|string
-	private function hex2rgb($hex, $asString = false) {
+    /**************************************************************************************************************
+             * Converte valor de cor hexadecimal em valores RGB e retorna como matriz / string
+     *************************************************************************************************************/
+     //@param string $hex
+     //@param bool $asString
+     //return array|string
+    private function hex2rgb($hex, $asString = false) {
 
         if (0 === strpos($hex, '#')) {
            $hex = substr($hex, 1);
@@ -596,7 +596,7 @@ class TVimageManipulation {
         $cutpoint = ceil(strlen($hex) / 2)-1;
         $rgb = explode(':', wordwrap($hex, $cutpoint, ':', $cutpoint), 3);
 
-		//converter each tupla para decimal
+        //converter each tupla para decimal
         $rgb[0] = (isset($rgb[0]) ? hexdec($rgb[0]) : 0);
         $rgb[1] = (isset($rgb[1]) ? hexdec($rgb[1]) : 0);
         $rgb[2] = (isset($rgb[2]) ? hexdec($rgb[2]) : 0);
@@ -608,60 +608,60 @@ class TVimageManipulation {
      * Lê metadados selecionados EXIF de imagens jpg e preenche $this->imageMeta com valores adequados, se for encontrado
      ******************************************************************************************************************************/
     private function gatherImageMeta() {
-    	//apenas tentar recuperar informações se existe exif
-    	if(function_exists("exif_read_data") && ($this->format == 'JPG')) {
-			$imageData = @exif_read_data($this->fileName);
-			if(isset($imageData['Make']))
-				$this->imageMeta['make'] = ucwords(strtolower($imageData['Make']));
-			if(isset($imageData['Model']))
-				$this->imageMeta['model'] = $imageData['Model'];
-			if(isset($imageData['COMPUTED']['ApertureFNumber'])) {
-				$this->imageMeta['aperture'] = $imageData['COMPUTED']['ApertureFNumber'];
-				$this->imageMeta['aperture'] = str_replace('/','',$this->imageMeta['aperture']);
-			}
-			if(isset($imageData['ExposureTime'])) {
-				$exposure = explode('/',$imageData['ExposureTime']);
-				$exposure = round($exposure[1]/$exposure[0],-1);
-				$this->imageMeta['exposure'] = '1/' . $exposure . ' second';
-			}
-			if(isset($imageData['Flash'])) {
-				if($imageData['Flash'] > 0) {
-					$this->imageMeta['flash'] = 'Yes';
-				}
-				else {
-					$this->imageMeta['flash'] = 'No';
-				}
-			}
-			if(isset($imageData['FocalLength'])) {
-				$focus = explode('/',$imageData['FocalLength']);
-				$this->imageMeta['focalLength'] = round($focus[0]/$focus[1],2) . ' mm';
-			}
-			if(isset($imageData['DateTime'])) {
-				$date = $imageData['DateTime'];
-				$date = explode(' ',$date);
-				$date = str_replace(':','-',$date[0]) . ' ' . $date[1];
-				$this->imageMeta['dateTaken'] = date('m/d/Y g:i A',strtotime($date));
-			}
-    	}
+        //apenas tentar recuperar informações se existe exif
+        if(function_exists("exif_read_data") && ($this->format == 'JPG')) {
+            $imageData = @exif_read_data($this->fileName);
+            if(isset($imageData['Make']))
+                $this->imageMeta['make'] = ucwords(strtolower($imageData['Make']));
+            if(isset($imageData['Model']))
+                $this->imageMeta['model'] = $imageData['Model'];
+            if(isset($imageData['COMPUTED']['ApertureFNumber'])) {
+                $this->imageMeta['aperture'] = $imageData['COMPUTED']['ApertureFNumber'];
+                $this->imageMeta['aperture'] = str_replace('/','',$this->imageMeta['aperture']);
+            }
+            if(isset($imageData['ExposureTime'])) {
+                $exposure = explode('/',$imageData['ExposureTime']);
+                $exposure = round($exposure[1]/$exposure[0],-1);
+                $this->imageMeta['exposure'] = '1/' . $exposure . ' second';
+            }
+            if(isset($imageData['Flash'])) {
+                if($imageData['Flash'] > 0) {
+                    $this->imageMeta['flash'] = 'Yes';
+                }
+                else {
+                    $this->imageMeta['flash'] = 'No';
+                }
+            }
+            if(isset($imageData['FocalLength'])) {
+                $focus = explode('/',$imageData['FocalLength']);
+                $this->imageMeta['focalLength'] = round($focus[0]/$focus[1],2) . ' mm';
+            }
+            if(isset($imageData['DateTime'])) {
+                $date = $imageData['DateTime'];
+                $date = explode(' ',$date);
+                $date = str_replace(':','-',$date[0]) . ' ' . $date[1];
+                $this->imageMeta['dateTaken'] = date('m/d/Y g:i A',strtotime($date));
+            }
+        }
     }
 
     /**************************************************************************
-     		 Gira a imagem ou 90 graus no sentido horário ou anti-horário
+             Gira a imagem ou 90 graus no sentido horário ou anti-horário
      *************************************************************************/
      //@param string $direction
     public function rotateImage($direction = 'CW') {
-    	if($direction == 'CW') {
-    		$this->workingImage = imagerotate($this->workingImage,-90,0);
-    	}
-    	else {
-    		$this->workingImage = imagerotate($this->workingImage,90,0);
-    	}
-    	$newWidth = $this->currentDimensions['height'];
-    	$newHeight = $this->currentDimensions['width'];
-		$this->oldImage = $this->workingImage;
-		$this->newImage = $this->workingImage;
-		$this->currentDimensions['width'] = $newWidth;
-		$this->currentDimensions['height'] = $newHeight;
+        if($direction == 'CW') {
+            $this->workingImage = imagerotate($this->workingImage,-90,0);
+        }
+        else {
+            $this->workingImage = imagerotate($this->workingImage,90,0);
+        }
+        $newWidth = $this->currentDimensions['height'];
+        $newHeight = $this->currentDimensions['width'];
+        $this->oldImage = $this->workingImage;
+        $this->newImage = $this->workingImage;
+        $this->currentDimensions['width'] = $newWidth;
+        $this->currentDimensions['height'] = $newHeight;
     }
 }
 ?>

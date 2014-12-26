@@ -77,7 +77,7 @@ class PictureCut extends ContainerAware{
 					if($this->validation($uploadValidations, $options['request']->request->all())){
 						if($options['request']->files->get($options['request']->request->get('inputOfFile'))) {
 							$this->populateFromArray($options['request']->request->all());
-							$this->populateFileFromStream($_FILES[$options['request']->request->get('inputOfFile')]);
+							$this->populateFileFromStream($options['request']->files->get($options['request']->request->get('inputOfFile')));
 						} else {
 							throw new \Exception($options['request']->request->get('inputOfFile')." file variable is required");
 						}
@@ -116,17 +116,16 @@ class PictureCut extends ContainerAware{
 			if($key == 'request') $key = 'request_action';
 		    $this->$key = $value;
 		}
-		$this->folderPath = $this->getConfig('xoeoro.picturecut.file_base_path');
+		$this->folderPath = $this->file_base_path;
 		$this->maximumSize = $this->maximumSize * 1024;
 	}
 
 	private function populateFileFromStream(UploadedFile $fileStream){
 		$this->fileStream = $fileStream;
 		$this->fileName   = $fileStream->getClientOriginalName();
-		$this->fileType   = $fileStream->getExtension();
+		$this->fileType   = $fileStream->getClientOriginalExtension();
 
 		if($this->imageNameRandom == "true"){
-
 			$newName = dechex(round(rand(0,999999999999999))).".".$this->fileType;
 			while(file_exists($this->folderPath.$newName))
 			{
@@ -161,7 +160,7 @@ class PictureCut extends ContainerAware{
 
 	public function upload(){
 		try {
-			if ($this->fileStream->move($this->currentFile)) {
+			if ($this->fileStream->move($this->folderPath, $this->currentFileName)) {
 
 				$this->TVimageManipulation = new TVimageManipulation($this->currentFile);
 				$this->currentWidth        = $this->TVimageManipulation->getCurrentWidth();
@@ -270,7 +269,7 @@ class PictureCut extends ContainerAware{
 	public function returnResult() {
 		return array(
 			"status"          => $this->status,
-			"currentFileName" => $this->currentFileName,
+			"currentFileName" => $this->web_base_path.$this->currentFileName,
 			"currentWidth"    => $this->currentWidth,
 			"currentHeight"   => $this->currentHeight,
 			"currentFileSize" => $this->currentFileSize,

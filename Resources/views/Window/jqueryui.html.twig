@@ -11,16 +11,35 @@ $(function(){
 </script>
 <div id="Painel">
 	<span>
-		<select id="SelectOrientacao" title="Choose the Orientation of the cutout area" >
+		<select id="SelectOrientacao" title="{{- 'title.orientation'|trans({}, 'XoeoroPictureCutBundle') -}}" >
+		  <option value="Horizontal" id="orientation-horizontal">
+	        {{- 'orientation.horizontal'|trans({}, 'XoeoroPictureCutBundle') -}}
+	      </option>
+	      <option value="Vertical" id="orientation-vertical">
+	        {{- 'orientation.vertical'|trans({}, 'XoeoroPictureCutBundle') -}}
+	      </option>
 	    </select>
     </span>
     <span>
-	   	<select id="SelectProporcao" title="Choose the Aspect Ratio of selection" >
+	   	<select id="SelectProporcao" title="{{- 'title.proportion'|trans({}, 'XoeoroPictureCutBundle') -}}" >
+	   	  <option value="wide" id="proporcao-wide">
+	        {{- 'proportion.wide'|trans({}, 'XoeoroPictureCutBundle') -}}
+	      </option>
+	      <option value="box" id="proporcao-box">
+	        {{- 'proportion.box'|trans({}, 'XoeoroPictureCutBundle') -}}
+	      </option>
+	      <option value="livre" id="proporcao-livre">
+	        {{- 'proportion.livre'|trans({}, 'XoeoroPictureCutBundle') -}}
+	      </option>
 	    </select>
     </span>
     <span>
-		<button id="button_crop_recortar">Recortar</button>
-	    <button id="button_crop_original">Concluir</button>
+		<button id="button_crop_recortar" class="btn btn-default">
+	        {{- 'button_crop_recortar'|trans({}, 'XoeoroPictureCutBundle') -}}
+		</button>
+		<button id="button_crop_original" class="btn btn-default">
+			{{- 'button_crop_original'|trans({}, 'XoeoroPictureCutBundle') -}}
+		</button>
     </span>
 </div>
 <div id="Principal">

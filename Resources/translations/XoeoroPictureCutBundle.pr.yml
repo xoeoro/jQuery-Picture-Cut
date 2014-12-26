@@ -1,0 +1,15 @@
+button_crop_recortar: Recortar
+button_crop_original: Concluir
+
+orientation:
+    horizontal: Landscape
+    vertical: Portrait
+
+proportion:
+    wide: 16:9
+    box: 4:3
+    livre: Free
+
+title:
+    orientation: Choose the Orientation of the cutout area
+    proportion: Choose the Aspect Ratio of selection
