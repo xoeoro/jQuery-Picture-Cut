@@ -17,9 +17,9 @@ class CropController extends Controller
 			if($pictureCut->crop()){
 				return new JsonResponse($pictureCut->returnResult());
 			} else {
-				return new JsonResponse($pictureCut->returnExceptions()); //print exceptions if the upload fails
+				return new JsonResponse($pictureCut->return\Exceptions()); //print exceptions if the upload fails
 		  	}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			print $e->getMessage();
 			exit();
 		}

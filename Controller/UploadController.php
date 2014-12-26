@@ -17,9 +17,9 @@ class UploadController extends Controller
 			if($pictureCut->upload()){
 				return new JsonResponse($pictureCut->returnResult());
 			} else {
-				return new JsonResponse($pictureCut->returnExceptions());
+				return new JsonResponse($pictureCut->return\Exceptions());
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			print $e->getMessage();
 			exit();
 		}

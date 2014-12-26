@@ -42,7 +42,7 @@ class PictureCut extends ContainerAware{
 	public function getCurrentHeight() { return $this->currentHeight; }
 	public function getCurrentFileSize() {
 		if($this->TVimageManipulation == NULL){
-			throw new Exception("Image not instantiated");
+			throw new \Exception("Image not instantiated");
 		} else {
 			return $this->TVimageManipulation->getCurrentFileSize();
 		}
@@ -50,7 +50,7 @@ class PictureCut extends ContainerAware{
 
 	public function __construct($options = array()){
 		if(!isset($options['request'])) {
-			throw new Exception("@request service is not defined");
+			throw new \Exception("@request service is not defined");
 		}
 
 		foreach ($options as $key => $value) {
@@ -79,7 +79,7 @@ class PictureCut extends ContainerAware{
 							$this->populateFromArray($options['request']->request->all());
 							$this->populateFileFromStream($_FILES[$options['request']->request->get('inputOfFile')]);
 						} else {
-							throw new Exception($options['request']->request->get('inputOfFile')." file variable is required");
+							throw new \Exception($options['request']->request->get('inputOfFile')." file variable is required");
 						}
 					}
 
@@ -101,13 +101,13 @@ class PictureCut extends ContainerAware{
 					}
 
 				} else {
-					throw new Exception("request variable value is invalid");
+					throw new \Exception("request variable value is invalid");
 				}
 			} else {
-				throw new Exception("request variable does not exist");
+				throw new \Exception("request variable does not exist");
 			}
 		} else {
-			throw new Exception("request method is invalid");
+			throw new \Exception("request method is invalid");
 		}
 	}
 
@@ -147,12 +147,12 @@ class PictureCut extends ContainerAware{
 					foreach ($rules[$key] as $rule) {
 						if($rule == "int"){
 							if(!is_numeric($data[$key])){
-								throw new Exception($key." variable is not ".$rule);
+								throw new \Exception($key." variable is not ".$rule);
 							}
 						}
 					}
 				} else {
-					throw new Exception($key." variable is required");
+					throw new \Exception($key." variable is required");
 				}
 			}
 		}
@@ -204,7 +204,7 @@ class PictureCut extends ContainerAware{
 				$this->status = false;
 				return $this->status;
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			throw $e;
 		}
 	}
@@ -262,7 +262,7 @@ class PictureCut extends ContainerAware{
 			$this->currentFileSize =$this->TVimageManipulation->getCurrentFilesize();
 
 			return true;
-		}catch(Exception $e){
+		}catch(\Exception $e){
 			return false;
 		}
 	}
@@ -282,7 +282,7 @@ class PictureCut extends ContainerAware{
 		return json_encode($this->returnResult());
 	}
 
-	public function returnExceptions() {
+	public function return\Exceptions() {
 		return array(
 			"status"          => $this->status,
 			"request"         => $this->request_action,
@@ -291,6 +291,6 @@ class PictureCut extends ContainerAware{
 	}
 
 	public function exceptionsToJson(){
-		return json_encode($this->returnExceptions());
+		return json_encode($this->return\Exceptions());
 	}
 }
