@@ -1,0 +1,15 @@
+button_crop_recortar: Обрезать
+button_crop_original: Сохранить
+
+orientation:
+    horizontal: Альбомная
+    vertical: Портретная
+
+proportion:
+    wide: 16:9
+    box: 4:3
+    livre: Произвольная
+
+title:
+    orientation: Укажите ориентацию вырезаемого блока
+    proportion: Укажите пропорцию выделения
