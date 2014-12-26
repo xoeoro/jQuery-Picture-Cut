@@ -11,6 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class WindowController extends Controller
 {
 	public function indexAction($mode) {
-		return $this->render(sprintf('XoeoroPictureCut:Window:%s.html.twig', strtolower($mode)));
+		return $this->render(sprintf('XoeoroPictureCutBundle:Window:%s.html.twig', strtolower($mode)));
 	}
 }
