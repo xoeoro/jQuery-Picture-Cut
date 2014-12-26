@@ -282,7 +282,7 @@ class PictureCut extends ContainerAware{
 		return json_encode($this->returnResult());
 	}
 
-	public function return\Exceptions() {
+	public function returnExceptions() {
 		return array(
 			"status"          => $this->status,
 			"request"         => $this->request_action,
@@ -291,6 +291,6 @@ class PictureCut extends ContainerAware{
 	}
 
 	public function exceptionsToJson(){
-		return json_encode($this->return\Exceptions());
+		return json_encode($this->returnExceptions());
 	}
 }
