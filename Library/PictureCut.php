@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PictureCut extends ContainerAware{
 
-	private $request;
+	private $request_action;
 	private $currentFile;
 	private $currentFileSize;
 	private $currentHeight;
@@ -113,6 +113,7 @@ class PictureCut extends ContainerAware{
 
 	private function populateFromArray($data){
 		foreach ($data as $key => $value) {
+			if($key == 'request') $key = 'request_action';
 		    $this->$key = $value;
 		}
 		$this->folderPath = $this->getConfig('xoeoro.picturecut.file_base_path');
@@ -273,7 +274,7 @@ class PictureCut extends ContainerAware{
 			"currentWidth"    => $this->currentWidth,
 			"currentHeight"   => $this->currentHeight,
 			"currentFileSize" => $this->currentFileSize,
-			"request"         => $this->request
+			"request"         => $this->request_action
 		);
 	}
 
@@ -284,7 +285,7 @@ class PictureCut extends ContainerAware{
 	public function returnExceptions() {
 		return array(
 			"status"          => $this->status,
-			"request"         => $this->request,
+			"request"         => $this->request_action,
 			"errorMessage"    => $this->errorMessage
 		);
 	}
