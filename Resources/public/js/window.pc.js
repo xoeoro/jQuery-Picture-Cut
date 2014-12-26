@@ -136,5 +136,6 @@ $(function() {
     };
     $t("#SelectOrientacao, #SelectProporcao").change(function() {
         SelectMudar_Orientacao()
-    })
+    });
+    $t("#SelectOrientacao").change();
 });

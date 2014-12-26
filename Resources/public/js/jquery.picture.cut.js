@@ -28,6 +28,7 @@ $(function() {
             title: b,
             resizable: l,
             zIndex: 100,
+            closeText: null,
             close: function(a, b) {
                 $(this).dialog("destroy").remove()
             }
@@ -56,6 +57,7 @@ $(function() {
             zIndex: 100,
             width: 450,
             title: a,
+            closeText: null,
             buttons: {
                 Ok: function() {
                     $(this).dialog("destroy").remove();
@@ -88,6 +90,7 @@ $(function() {
                 zIndex: 100,
                 width: 450,
                 title: a,
+                closeText: null,
                 create: function(a, b) {
                     $(this).parent().children(".ui-dialog-titlebar").children(".ui-dialog-titlebar-close").hide()
                 }
@@ -203,7 +206,6 @@ $(function() {
                 InputOfFile: "",
                 ActionToSubmitUpload: OptionsIfEmpty.ActionToSubmitUpload,
                 ActionToSubmitCrop: OptionsIfEmpty.ActionToSubmitCrop,
-                ThumbFolderOnServer: "",
                 DataPost: {},
                 DefaultImageButton: OptionsIfEmpty.DefaultImageButton,
                 EnableCrop: false,
@@ -212,7 +214,6 @@ $(function() {
                 MinimumHeightToResize: 630,
                 MaximumSize: 1024,
                 EnableMaximumSize: false,
-                PluginFolderOnServer: "",
                 CropWindowStyle: "bootstrap",
                 ImageNameRandom: true,
                 EnableButton: false,
@@ -227,6 +228,7 @@ $(function() {
                     free: true
                 },
                 CropOrientation: true,
+                DefaultOrientation: 'Vertical',
                 UploadedCallback: function(response) {}
             };
             if (Options.ImageButtonCSS != undefined) Options.ImageButtonCSS = $.extend(defaults.ImageButtonCSS, Options.ImageButtonCSS);
@@ -238,7 +240,6 @@ $(function() {
                 Options.InputOfFile = "file-" + Options.InputOfImageDirectory
             };
             __IMAGE_LOADING = "/bundles/xoeoropicturecut/img/ajaxloader.gif";
-            if (Options.PastaCrop != undefined) Options.PluginFolderOnServer = Options.PastaCrop;
             var basic_dependence_css_id = "picture_basic_dependence_css";
             if ($("#" + basic_dependence_css_id).length == 0) {
                 $('<style type="text/css" id="' + basic_dependence_css_id + '">' + ".picture-element-principal{background:url(" + Options.DefaultImageButton + ") no-repeat 50% 50%}" + ".picture-dropped{border:2px #666 dashed!important;}" + '</style>').appendTo('head')
@@ -316,20 +317,34 @@ $(function() {
                                 ElemSelectOrientacao.parent().hide()
                             };
 
-                            if (!Options.CropModes.widescreen) ElemSelectProporcao.find("#proporcao-wide").hide();
-                            if (!Options.CropModes.letterbox) ElemSelectProporcao.find("#proporcao-box").hide();
-                            if (!Options.CropModes.free) ElemSelectProporcao.find("#proporcao-livre").hide();
+                            if (!Options.CropModes.widescreen) ElemSelectProporcao.find("#proporcao-wide").remove();
+                            if (!Options.CropModes.letterbox) ElemSelectProporcao.find("#proporcao-box").remove();
+                            if (!Options.CropModes.free) ElemSelectProporcao.find("#proporcao-livre").remove();
 
                             if (Options.CropModes.widescreen || Options.CropModes.letterbox && (Options.CropOrientation)) {
 
                             } else {
-                                ElemSelectOrientacao.find('#orientation-horizontal').text(ElemSelectOrientacao.find('#orientation-vertical').hide().text());
+                                // ElemSelectOrientacao.find('#orientation-horizontal').text(ElemSelectOrientacao.find('#orientation-vertical').hide().text());
                                 ElemSelectOrientacao.hide();
                                 ElemSelectOrientacao.parent().hide()
                             };
+
+                            if(ElemSelectOrientacao.find('[value="'+Options.DefaultOrientation+'"]').length) {
+                                // ElemSelectOrientacao.find('[value="'+Options.DefaultOrientation+'"]').attr('selected', true);
+                                ElemSelectOrientacao.val(Options.DefaultOrientation);
+                            }
+
                             if (ElemSelectProporcao.find("option:not(:hidden)").length > 0) {
                                 ElemSelectProporcao.find("option:not(:hidden)").eq(0).attr("selected", "selected")
-                            };
+                                if(ElemSelectProporcao.find("option:not(:hidden)").length == 1) {
+                                    ElemSelectProporcao.hide();
+                                    ElemSelectProporcao.parent().hide()
+                                }
+                            } else {
+                                ElemSelectProporcao.hide();
+                                ElemSelectProporcao.parent().hide()
+                            }
+
                             SelecaoRecorte.draggable({
                                 containment: "parent"
                             });
@@ -460,6 +475,7 @@ $(function() {
                             "width": response.currentWidth,
                             "height": response.currentHeight
                         }).attr("src", response.currentFileName + "?" + Math.round(Math.random() * 9999))
+                        $dialog.parents('.ui-dialog').trigger('resize');
                     };
                     var JpaneDialogCallBack = function() {
                         $.getScript("/bundles/xoeoropicturecut/js/window.pc.js");
@@ -478,7 +494,6 @@ $(function() {
                             PcLoading.show();
                             var data = response;
                             data["request"] = "crop";
-                            data["folderOnServer"] = Options.FolderOnServer;
                             data["inputOfFile"] = Options.InputOfFile;
                             data["maximumSize"] = Options.MaximumSize;
                             data["enableMaximumSize"] = Options.EnableMaximumSize;
@@ -499,6 +514,8 @@ $(function() {
                                 Redimencionar_Janela()
                             }, "JSON")
                         })
+
+                        $(document).trigger('change-content');
                     };
                     if (Options.CropWindowStyle == "jqueryui") PcDialog(CropWindowStyle[Options.CropWindowStyle], "JtuyoshiCrop", "Crop image", 900, 555, true, true, false, null, JpaneDialogCallBack);
                     else if (Options.CropWindowStyle == "popstyle") JpaneDialogCrop(CropWindowStyle[Options.CropWindowStyle], "Crop image", 980, 555, true, false, false, null, JpaneDialogCallBack);
@@ -602,7 +619,6 @@ $(function() {
                     post["enableResize"] = Options.EnableResize;
                     post["minimumWidthToResize"] = Options.MinimumWidthToResize;
                     post["minimumHeightToResize"] = Options.MinimumHeightToResize;
-                    post["folderOnServer"] = Options.FolderOnServer;
                     post["imageNameRandom"] = Options.ImageNameRandom;
                     post["maximumSize"] = Options.MaximumSize;
                     post["enableMaximumSize"] = Options.EnableMaximumSize;
@@ -643,9 +659,6 @@ $(function() {
                         InputOfImage.val(response.currentFileName).change();
                         if (typeof(Options.UploadedCallback) == 'function') {
                             var data_response = response;
-                            data_response["options"] = {
-                                "FolderOnServer": Options.FolderOnServer
-                            };
                             Options.UploadedCallback.call(this, response)
                         }
                     };
