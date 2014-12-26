@@ -21,5 +21,5 @@ new Xoeoro\PictureCutBundle\XoeoroPictureCutBundle()
 
 ## routing.yml
 xoeoro_picturecut:
-    resource: '@XoeoroPictureCutBundle/Resources/config/routing/routing.yml'
+    resource: '@XoeoroPictureCutBundle/Resources/config/routing.yml'
     prefix: /picturecut
