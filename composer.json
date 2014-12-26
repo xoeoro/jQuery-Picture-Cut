@@ -25,6 +25,5 @@
     "autoload":{
         "psr-4": { "Xoeoro\\PictureCutBundle": "" }
     },
-	"minimum-stability": "dev",
-    "target-dir": "Xoeoro/PictureCutBundle"
+	"minimum-stability": "dev"
 }
