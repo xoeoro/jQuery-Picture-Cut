@@ -1,5 +1,5 @@
 /**********************************************************************************
-            Funções uteis 
+            Funções uteis
             Copyright (c) 2013 Tuyoshi Vinicius (tuyoshi_vinicius@hotmail.com))
             Version: 1.1
 ***********************************************************************************/
@@ -192,9 +192,9 @@ $(function() {
         },
         init: function(Options) {
             var OptionsIfEmpty = {
-                ActionToSubmitUpload: "src/php/upload.php",
-                ActionToSubmitCrop: "src/php/crop.php",
-                DefaultImageButton: "src/img/icon_add_image2.png"
+                ActionToSubmitUpload: Routing.generate('xoeoro_picturecut_upload'),
+                ActionToSubmitCrop: Routing.generate('xoeoro_picturecut_crop'),
+                DefaultImageButton: "/bundles/xoeoropicturecut/img/icon_add_image2.png"
             };
             var defaults = {
                 Extensions: ["jpg", "png", "gif"],
@@ -255,19 +255,8 @@ $(function() {
             if (Options.InputOfFile == "") {
                 Options.InputOfFile = "file-" + Options.InputOfImageDirectory
             };
-            __IMAGE_LOADING = Options.PluginFolderOnServer + "src/img/ajaxloader.gif";
+            __IMAGE_LOADING = "/bundles/xoeoropicturecut/img/ajaxloader.gif";
             if (Options.PastaCrop != undefined) Options.PluginFolderOnServer = Options.PastaCrop;
-            if (Options.CropWindowStyle.toLowerCase() == "bootstrap") {
-                var id = "picture_element_css_to_bootstrap";
-                if ($("#" + id).size() == 0) {
-                    $('<link/>', {
-                        id: id,
-                        rel: 'stylesheet',
-                        type: 'text/css',
-                        href: Options.PluginFolderOnServer + 'src/windows/JanelaBootstrap/jquery-ui-1.10.0.custom.css'
-                    }).appendTo('head')
-                }
-            };
             var basic_dependence_css_id = "picture_basic_dependence_css";
             if ($("#" + basic_dependence_css_id).size() == 0) {
                 $('<style type="text/css" id="' + basic_dependence_css_id + '">' + ".picture-element-principal{background:url(" + Options.DefaultImageButton + ") no-repeat 50% 50%}" + ".picture-dropped{border:2px #666 dashed!important;}" + '</style>').appendTo('head')
@@ -275,9 +264,9 @@ $(function() {
             return this.each(function() {
                 var Elemento;
                 var CropWindowStyle = {
-                    "jqueryui": "src/windows/window.jqueryui.php",
-                    "popstyle": "src/windows/window.popstyle.php",
-                    "bootstrap": "src/windows/window.bootstrap.php"
+                    "jqueryui": Routing.generate('xoeoro_picturecut_window', {mode: 'jqueryui'}),
+                    "popstyle": Routing.generate('xoeoro_picturecut_window', {mode: 'popstyle'}),
+                    "bootstrap": Routing.generate('xoeoro_picturecut_window', {mode: 'bootstrap'})
                 };
                 var $EnableButton;
                 JpaneDialogCrop = function(action, titulo, w, h, wmodal, drag, resize, post, Call) {
@@ -308,7 +297,7 @@ $(function() {
                         "height": "100%",
                         "border": "1px #CCC solid",
                         "background-image": "url(" + __IMAGE_LOADING + ")",
-                        "background-image": "url(" + Options.PluginFolderOnServer + "src/img/fundo_crop.png)",
+                        "background-image": "url(/bundles/xoeoropicturecut/img/fundo_crop.png)",
                         "z-index": 598
                     });
                     if (wmodal) $("body").append($modal);
@@ -335,7 +324,7 @@ $(function() {
                         });
                         ElemSelectProporcao = $("#JtuyoshiCrop #SelectProporcao");
                         ElemSelectOrientacao = $("#JtuyoshiCrop #SelectOrientacao");
-                        if (state == "create") {                            
+                        if (state == "create") {
                             if (Options.CropModes.widescreen || Options.CropModes.letterbox || Options.CropModes.free) {
                                 ElemSelectProporcao.show()
                             } else {
@@ -405,7 +394,7 @@ $(function() {
                                 "height": Sheight,
                                 "left": (response.currentWidth - Swidth) / 2,
                                 "top": (response.currentHeight - Sheight) / 2
-                            });                                                                            
+                            });
                         };
                         ElemSelectProporcao.change();
                     };
@@ -487,7 +476,6 @@ $(function() {
                         }).attr("src", Options.FolderOnServer + response.currentFileName + "?" + Math.round(Math.random() * 9999))
                     };
                     var JpaneDialogCallBack = function() {
-                        $.getScript(Options.PluginFolderOnServer + "src/windows/core/window.pc.js");
                         var Principal = $("#JtuyoshiCrop #Principal");
                         var Imagem = $("<img />");
                         Principal.append(Imagem);

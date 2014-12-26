@@ -33,7 +33,7 @@ $(function() {
                      CX = (($t("#Principal").width() - CW) / 2);
                      CY = (($t("#Principal").height() - CH) / 2);
                 } else {
-                                                            
+
                      CH = ($t("#Principal").height() / 100) * 80;
                      CW = (CH*16)/9;
 
