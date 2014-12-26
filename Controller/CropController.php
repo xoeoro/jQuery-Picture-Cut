@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CropController extends Controller
 {
-	public function index() {
+	public function indexAction() {
 		try {
 			$pictureCut = $this->container->get('xoeoro.picturecut');
 
