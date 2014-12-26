@@ -1,6 +1,6 @@
 <?php
 
-namespace xoeoro\PictureCutBundle;
+namespace Xoeoro\PictureCutBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,5 +1,5 @@
 {
-    "name":"xoeoro/picturecut",
+    "name": "xoeoro/picturecut",
     "type": "symfony-bundle",
     "description": "Picture cut is a jquery plugin that handles images in a very friendly and simple way, with a beautiful interface based on bootstrap or jquery ui, has great features like ajax upload, drag image from explorer, image crop and others.",
     "keywords": ["Image", "Crop", "File", "Upload", "symfony", "symfony bundle", "bundle", "jquery", "symfony-2"],
@@ -23,7 +23,8 @@
 		    "symfony/framework-bundle": "2.*"
     },
     "autoload":{
-        "psr-0": { "xoeoro\\PictureCutBundle": "" }
+        "psr-0": { "Xoeoro\\PictureCutBundle": "" }
     },
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+    "target-dir": "Xoeoro/PictureCutBundle"
 }
