@@ -11,3 +11,15 @@ http://picturecut.tuyoshi.com.br/docs
 
 The Picture jQuery is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
+### Installation
+
+## composer
+composer require "xoeoro/picturecut":"dev-master"
+
+## AppKernel.php
+new Xoeoro\PictureCutBundle\XoeoroPictureCutBundle()
+
+## routing.yml
+xoeoro_picturecut:
+    resource: '@XoeoroPictureCutBundle/Resources/config/routing/routing.yml'
+    prefix: /picturecut
