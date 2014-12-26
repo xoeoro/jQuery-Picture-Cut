@@ -1,0 +1,12 @@
+parameters:
+  xoeoro.picturecut.file_base_path: "%kernel.root_dir%/../web/uploads"
+  xoeoro.picturecut.web_base_path: "/uploads"
+
+services:
+    xoeoro.picturecut:
+        class: Xoeoro\PictureCutBundle\Library\PictureCut
+        arguments:
+          - file_base_path: '%xoeoro.picturecut.file_base_path%'
+            web_base_path: '%xoeoro.picturecut.web_base_path%'
+            request: '@request'
+        scope: request

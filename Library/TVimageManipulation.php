@@ -1,4 +1,6 @@
 <?php
+namespace Xoeoro\PictureCutBundle\Library;
+
  /**
   * TVimageManipulation.php
    	Copyright (c) 2013 Tuyoshi Vinicius (tuyoshi_vinicius@hotmail.com))
@@ -7,32 +9,32 @@
   *
   */
 class TVimageManipulation {
-	
+
     /*******************************************
     // Mensagem de erro para exibir, se houver*/
     private $errmsg;
-	
-	
+
+
     //Se existe ou não é um erro
     // @var boolean
     private $error;
-	
-	
+
+
     //Formato do arquivo de imagem
     //@var string
     private $format;
-	
-	    
+
+
     //O nome do arquivo e caminho do arquivo de imagem
     //@var string
     private $fileName;
-	
-	
+
+
      //Imagem meta dados se algum está disponível (JPEG / TIFF) através da Biblioteca exif
      //@var array
     public $imageMeta;
-	
-	
+
+
      //Dimensões atuais da imagem de trabalho
      //@var array
     private $currentDimensions;
@@ -41,7 +43,7 @@ class TVimageManipulation {
     //@var array
     private $newDimensions;
 
-	//Recurso de imagem para a imagem do recém-manipulado	
+	//Recurso de imagem para a imagem do recém-manipulado
 	//@var resource
     private $newImage;
 
@@ -52,8 +54,8 @@ class TVimageManipulation {
     //Recurso de imagem para a imagem que está sendo atualmente manipulado
     //@var resource
     private $workingImage;
-	
-	
+
+
     //Percentual para redimensionar a imagem por
     //@var int
     private $percent;
@@ -67,7 +69,7 @@ class TVimageManipulation {
     private $maxHeight;
 
 
-    
+
 	/*********************************************
 				construtor da classe
 	***********************************************/
@@ -77,7 +79,7 @@ class TVimageManipulation {
         	echo 'Você não tem a biblioteca GD instalada. Esta classe exige a biblioteca GD para funcionar corretamente.';
         	exit;
         }
-		
+
     	// inicializar variáveis
         $this->errmsg               = '';
         $this->error                = false;
@@ -142,7 +144,7 @@ class TVimageManipulation {
     }
 
     /************************************
-	     destruidor de classe    
+	     destruidor de classe
     *************************************/
     public function __destruct() {
         if(is_resource($this->newImage)) @ImageDestroy($this->newImage);
@@ -165,7 +167,7 @@ class TVimageManipulation {
     public function getCurrentHeight() {
         return $this->currentDimensions['height'];
     }
-	
+
 	public function getCurrentFilesize(){
 		 clearstatcache();
 		 return (int)filesize($this->fileName);
@@ -173,7 +175,7 @@ class TVimageManipulation {
 
     /**************************************
 	     Calcula largura nova imagem
-	 *************************************/     
+	 *************************************/
 	//@param int $width
 	//@param int $height
 	//@return array
@@ -264,8 +266,8 @@ class TVimageManipulation {
         imagepng($errImg);
         imagedestroy($errImg);
     }
-	
-	
+
+
 
     /***********************************************************
 	      Redimensiona imagem para maxWidth x maxHeight
@@ -284,15 +286,15 @@ class TVimageManipulation {
 		else {
 			$this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
 		}
-		
+
 		if($this->format=="PNG")
 		{
 			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);		
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);		
+			imagesavealpha($this->workingImage,true);
+			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
 			imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
 		}
-		
+
 
 		ImageCopyResampled(
 			$this->workingImage,
@@ -310,7 +312,7 @@ class TVimageManipulation {
 		$this->oldImage = $this->workingImage;
 		$this->newImage = $this->workingImage;
 		$this->currentDimensions['width'] = $this->newDimensions['newWidth'];
-		$this->currentDimensions['height'] = $this->newDimensions['newHeight'];		
+		$this->currentDimensions['height'] = $this->newDimensions['newHeight'];
 	}
 
 	/**************************************
@@ -328,12 +330,12 @@ class TVimageManipulation {
 		else {
 			$this->workingImage = ImageCreate($this->newDimensions['newWidth'],$this->newDimensions['newHeight']);
 		}
-		
+
 		if($this->format=="PNG")
 		{
 			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);		
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);		
+			imagesavealpha($this->workingImage,true);
+			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
 			imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
 		}
 
@@ -373,12 +375,12 @@ class TVimageManipulation {
 		else {
 			$this->workingImage = ImageCreate($cropSize,$cropSize);
 		}
-		
+
 		if($this->format=="PNG")
 		{
 			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);		
-			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);		
+			imagesavealpha($this->workingImage,true);
+			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
 			imagefilledrectangle($this->workingImage, 0, 0, $this->newDimensions['newWidth'], $this->newDimensions['newHeight'], $transparent);
 		}
 
@@ -409,7 +411,7 @@ class TVimageManipulation {
 	//@param int $width
 	//@param int $height
 	public function crop($startX,$startY,$width,$height) {
-		
+
 
 	    if($width > $this->currentDimensions['width']) $width = $this->currentDimensions['width'];
 	    if($height > $this->currentDimensions['height']) $height = $this->currentDimensions['height'];
@@ -425,11 +427,11 @@ class TVimageManipulation {
 		else {
 			$this->workingImage = ImageCreate($width,$height);
 		}
-		
+
 		if($this->format=="PNG")
 		{
 			imagealphablending($this->workingImage, false);
-			imagesavealpha($this->workingImage,true);		
+			imagesavealpha($this->workingImage,true);
 			$transparent = imagecolorallocatealpha($this->workingImage, 255, 255, 255, 127);
 			imagefilledrectangle($this->workingImage, 0, 0, $width,$height, $transparent);
 		}
@@ -459,7 +461,7 @@ class TVimageManipulation {
 	//@param int $quality
 	//@param string $name
 
-	
+
 	public function show($quality=100,$name = '',$header=true) {
 	    switch($this->format) {
 	        case 'GIF':
@@ -499,7 +501,7 @@ class TVimageManipulation {
 	 //@param int $quality
 	public function save($name,$quality=100) {
 	    $this->show($quality,$name);
-		
+
 	}
 
 	/*********************************************************************************************************
@@ -601,7 +603,7 @@ class TVimageManipulation {
 
         return ($asString ? "{$rgb[0]} {$rgb[1]} {$rgb[2]}" : $rgb);
     }
-    
+
     /******************************************************************************************************************************
      * Lê metadados selecionados EXIF de imagens jpg e preenche $this->imageMeta com valores adequados, se for encontrado
      ******************************************************************************************************************************/
@@ -609,9 +611,9 @@ class TVimageManipulation {
     	//apenas tentar recuperar informações se existe exif
     	if(function_exists("exif_read_data") && ($this->format == 'JPG')) {
 			$imageData = @exif_read_data($this->fileName);
-			if(isset($imageData['Make'])) 
+			if(isset($imageData['Make']))
 				$this->imageMeta['make'] = ucwords(strtolower($imageData['Make']));
-			if(isset($imageData['Model'])) 
+			if(isset($imageData['Model']))
 				$this->imageMeta['model'] = $imageData['Model'];
 			if(isset($imageData['COMPUTED']['ApertureFNumber'])) {
 				$this->imageMeta['aperture'] = $imageData['COMPUTED']['ApertureFNumber'];
@@ -642,7 +644,7 @@ class TVimageManipulation {
 			}
     	}
     }
-    
+
     /**************************************************************************
      		 Gira a imagem ou 90 graus no sentido horário ou anti-horário
      *************************************************************************/

@@ -1,0 +1,7 @@
+xoeoro_picturecut_upload:
+    pattern:  /upload
+    defaults: { _controller: XoeoroPictureCut:Upload:index }
+
+xoeoro_picturecut_crop:
+    pattern:  /crop
+    defaults: { _controller: XoeoroPictureCut:Crop:index }
