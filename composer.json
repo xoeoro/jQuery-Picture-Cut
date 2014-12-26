@@ -23,7 +23,7 @@
 		    "symfony/framework-bundle": "2.*"
     },
     "autoload":{
-        "psr-4": { "Xoeoro\\PictureCutBundle": "" }
+        "psr-4": { "Xoeoro\\PictureCutBundle\\": "" }
     },
 	"minimum-stability": "dev"
 }
