@@ -545,7 +545,19 @@ $(function() {
                         element.removeClass("picture-dropped");
                         e.stopPropagation()
                     });
-                    var $image = $("<img src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' class='picture-element-image'>");
+
+                    var $image;
+                    if(element.find('.picture-element-image').length) {
+                        $image = element.find('.picture-element-image').eq(0);
+                    } else {
+                        var _img;
+                        if(element.data('image')) {
+                            _img = element.data('image');
+                        } else {
+                            _img = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+                        }
+                        $image = $("<img src='" + _img + "' class='picture-element-image'>");
+                    }
                     $image.css({
                         "position": "relative",
                         "cursor": "pointer"
