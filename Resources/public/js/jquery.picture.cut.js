@@ -566,7 +566,7 @@ $(function() {
                         "height": Options.ImageButtonCSS.height
                     });
                     element.append($image);
-                    var $inputHidden = $("<input type='hidden' name='" + Options.InputOfImageDirectory + "' id='" + Options.InputOfImageDirectory + "'>");
+                    var $inputHidden = $("<input type='hidden' name='" + Options.InputOfImageDirectory + "' id='" + Options.InputOfImageDirectory + "' value='" + (typeof element.data('image_new') != 'undefined'?element.data('image_new'):'') + "'>");
                     $inputHidden.addClass("picture-element-image-directory");
                     element.append($inputHidden);
                     $inputHidden.attr(Options.InputOfImageDirectoryAttr);
@@ -578,6 +578,8 @@ $(function() {
                                 "position": "relative",
                                 "cursor": "pointer"
                             });
+                            element.data('image', image_thumb);
+                            element.data('image_new', image_thumb);
                             $image.attr("src", image_thumb);
                             if (Options.EnableButton) {
                                 $EnableButton.unbind("click").bind("click", function() {
